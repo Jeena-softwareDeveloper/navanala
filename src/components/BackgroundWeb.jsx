@@ -11,6 +11,10 @@ const BackgroundWeb = ({ className = "fixed inset-0" }) => {
         let width, height;
         let waves = [];
 
+        // Optimization: Check for reduced motion preference
+        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const shouldReduceMotion = mediaQuery.matches;
+
         const init = () => {
             if (!canvas) return;
             // Function to get accurate size based on parent container
@@ -18,17 +22,19 @@ const BackgroundWeb = ({ className = "fixed inset-0" }) => {
             width = canvas.width = parent ? parent.clientWidth : window.innerWidth;
             height = canvas.height = parent ? parent.clientHeight : window.innerHeight;
 
-            // Initialize waves
+            // Initialize waves - Reduce count for mobile to optimize performance
+            const isMobile = width < 768;
             waves = [];
-            const waveCount = 5;
+            const waveCount = isMobile ? 3 : 5; // Fewer waves on mobile
+
             for (let i = 0; i < waveCount; i++) {
                 waves.push({
                     y: height / 2,
-                    length: 0.005 + Math.random() * 0.005, // Frequency
-                    amplitude: 50 + Math.random() * 100,
+                    length: 0.005 + Math.random() * 0.005,
+                    amplitude: (isMobile ? 30 : 50) + Math.random() * 100, // Smaller amplitude on mobile
                     speed: 0.02 + Math.random() * 0.02,
-                    offset: Math.random() * Math.PI * 2, // Phase shift
-                    color: `rgba(99, 102, 241, ${0.1 + Math.random() * 0.2})` // Indigo variation
+                    offset: Math.random() * Math.PI * 2,
+                    color: `rgba(99, 102, 241, ${0.1 + Math.random() * 0.2})`
                 });
             }
         };
@@ -37,13 +43,16 @@ const BackgroundWeb = ({ className = "fixed inset-0" }) => {
             if (!ctx) return;
             ctx.clearRect(0, 0, width, height);
 
-            // Draw grid points for tech feel (optional, let's keep it clean with just waves or add a static grid)
-            // Let's add a subtle static grid first
-            ctx.fillStyle = 'rgba(200, 210, 255, 0.3)';
-            const gridSize = 40;
-            for (let x = 0; x < width; x += gridSize) {
-                for (let y = 0; y < height; y += gridSize) {
-                    if (Math.random() > 0.98) ctx.fillRect(x, y, 2, 2); // Occasional sparkles
+            if (shouldReduceMotion) return; // Stop drawing if reduced motion is on
+
+            // Draw grid points - Only on desktop for performance
+            if (width > 768) {
+                ctx.fillStyle = 'rgba(200, 210, 255, 0.3)';
+                const gridSize = 60; // Larger grid for better perf
+                for (let x = 0; x < width; x += gridSize) {
+                    for (let y = 0; y < height; y += gridSize) {
+                        if (Math.random() > 0.99) ctx.fillRect(x, y, 2, 2);
+                    }
                 }
             }
 
@@ -52,9 +61,9 @@ const BackgroundWeb = ({ className = "fixed inset-0" }) => {
                 ctx.beginPath();
                 ctx.moveTo(0, height / 2);
 
-                for (let x = 0; x < width; x++) {
+                for (let x = 0; x < width; x += 2) { // Skip pixels for performance
+                    // Simplify calculation
                     const y = wave.y + Math.sin(x * wave.length + wave.offset) * wave.amplitude * Math.sin(time * 0.001);
-                    // We modulate amplitude with time for "breathing" effect
                     ctx.lineTo(x, y);
                 }
 
@@ -83,6 +92,7 @@ const BackgroundWeb = ({ className = "fixed inset-0" }) => {
         <canvas
             ref={canvasRef}
             className={`${className} z-0 pointer-events-none opacity-60`}
+            style={{ touchAction: 'none' }} // Improve scrolling performance over canvas
         />
     );
 };

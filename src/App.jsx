@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ChatWidget from './components/ChatWidget';
+import LoadingSpinner from './components/LoadingSpinner';
 
-// Import Pages
-import Home from './pages/Home';
-import ProductsPage from './pages/ProductsPage';
-import IndustriesPage from './pages/IndustriesPage';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
-
+// Lazy Import Pages for Performance Optimization
+const Home = lazy(() => import('./pages/Home'));
+const ProductsPage = lazy(() => import('./pages/ProductsPage'));
+const IndustriesPage = lazy(() => import('./pages/IndustriesPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
 
 function App() {
   const location = useLocation();
@@ -24,15 +24,18 @@ function App() {
         <Navbar />
 
         <main className="flex-grow">
-          <AnimatePresence mode="wait">
-            <Routes location={location} key={location.pathname}>
-              <Route path="/" element={<Home />} />
-              <Route path="/products" element={<ProductsPage />} />
-              <Route path="/industries" element={<IndustriesPage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-            </Routes>
-          </AnimatePresence>
+          {/* Suspense wrapper with custom Loading Spinner */}
+          <Suspense fallback={<LoadingSpinner />}>
+            <AnimatePresence mode="wait">
+              <Routes location={location} key={location.pathname}>
+                <Route path="/" element={<Home />} />
+                <Route path="/products" element={<ProductsPage />} />
+                <Route path="/industries" element={<IndustriesPage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+              </Routes>
+            </AnimatePresence>
+          </Suspense>
         </main>
 
         <div className="bg-slate-900 text-white">

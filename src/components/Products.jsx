@@ -1,108 +1,123 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, TrendingUp, ShoppingCart, BarChart, Smartphone } from 'lucide-react';
+import { Database, Activity, Truck, Users, BarChart3, Cloud, Lock, Smartphone } from 'lucide-react';
 
 const products = [
     {
-        icon: <Briefcase size={28} />,
-        title: 'Navanala ERP',
-        description: 'Complete enterprise resource planning to streamline your business operations and data.',
-        tags: ['Finance', 'SCM'],
+        icon: <Database size={28} />,
+        title: 'TexSuite ERP',
+        description: 'The ultimate enterprise backbone for textile conglomerates. Manage multi-unit operations from fiber to fashion in one unified dashboard.',
+        tags: ['Spinning', 'Weaving', 'Garmenting'],
         color: 'text-blue-600 bg-blue-50',
         border: 'hover:border-blue-200'
     },
     {
-        icon: <TrendingUp size={28} />,
-        title: 'HRMS Suite',
-        description: 'Modern human resource management for hiring, payroll, and employee engagement.',
-        tags: ['People', 'Payroll'],
-        color: 'text-pink-600 bg-pink-50',
-        border: 'hover:border-pink-200'
-    },
-    {
-        icon: <ShoppingCart size={28} />,
-        title: 'Inventory Hub',
-        description: 'Smart inventory tracking and automated billing for retail and wholesale businesses.',
-        tags: ['Stock', 'Billing'],
-        color: 'text-orange-600 bg-orange-50',
-        border: 'hover:border-orange-200'
-    },
-    {
-        icon: <BarChart size={28} />,
-        title: 'Finance & Books',
-        description: 'Comprehensive accounting software compliant with global tax standards.',
-        tags: ['Tax', 'Audit'],
+        icon: <Activity size={28} />,
+        title: 'SpinMaster Pro',
+        description: 'Specialized production tracking for spinning mills. Monitor spindle efficiency, yarn quality, and waste percentage in real-time.',
+        tags: ['Production', 'Maintenance'],
         color: 'text-teal-600 bg-teal-50',
         border: 'hover:border-teal-200'
     },
     {
-        icon: <Smartphone size={28} />,
-        title: 'Mobile Connect',
-        description: 'Enable your workforce to operate from anywhere with our mobile-first ecosystem.',
-        tags: ['Remote', 'App'],
+        icon: <Truck size={28} />,
+        title: 'LoomTrack',
+        description: 'IoT-enabled monitoring for weaving units. Track beam run-outs, loom stoppages, and efficiency automatically.',
+        tags: ['IoT', 'Weaving'],
         color: 'text-indigo-600 bg-indigo-50',
         border: 'hover:border-indigo-200'
+    },
+    {
+        icon: <Users size={28} />,
+        title: 'Navanala HRMS',
+        description: 'Complete workforce management handling piece-rate wages, overtime, and biometric attendance for large factory setups.',
+        tags: ['Payroll', 'Attendance'],
+        color: 'text-purple-600 bg-purple-50',
+        border: 'hover:border-purple-200'
+    },
+    {
+        icon: <BarChart3 size={28} />,
+        title: 'FinBooks Pro',
+        description: 'GST-ready accounting software integrated with inventory and sales, designed specifically for Indian manufacturers.',
+        tags: ['Accounting', 'GST'],
+        color: 'text-emerald-600 bg-emerald-50',
+        border: 'hover:border-emerald-200'
+    },
+    {
+        icon: <Smartphone size={28} />,
+        title: 'MerchMobile',
+        description: 'A mobile CRM for field sales and merchandisers to track samples, orders, and client approvals on the go.',
+        tags: ['Sales', 'CRM'],
+        color: 'text-orange-600 bg-orange-50',
+        border: 'hover:border-orange-200'
     }
 ];
 
 const Products = () => {
     return (
-        <section id="products" className="py-24 bg-white relative overflow-hidden">
-            {/* Background decoration */}
-            <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-indigo-50/50 rounded-full blur-[100px]"></div>
+        <section className="py-20 bg-white" id="products">
+            <div className="container mx-auto px-6">
+                <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                    <div className="max-w-2xl">
+                        <span className="text-blue-600 font-bold tracking-wider uppercase text-sm">Our Suite</span>
+                        <h2 className="text-3xl md:text-5xl font-bold mt-2 text-slate-900">
+                            Enterprise-Grade <span className="text-blue-600">Software Suite</span>
+                        </h2>
+                        <p className="text-slate-600 text-lg mt-4">
+                            Powerful, scalable, and secure applications designed to digitize every aspect of your manufacturing business.
+                        </p>
+                    </div>
+                    <button className="hidden md:flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors">
+                        View Full Catalog <ArrowRight size={20} />
+                    </button>
+                </div>
 
-            <div className="container mx-auto px-6 relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-20"
-                >
-                    <span className="text-primary font-bold tracking-wider uppercase mb-3 block">Our Ecosystem</span>
-                    <h2 className="text-4xl md:text-5xl font-extrabold mb-6 text-slate-900">Powerful Software Suite</h2>
-                    <p className="text-slate-600 max-w-2xl mx-auto text-lg leading-relaxed">
-                        Everything you need to run your business. Integrated, powerful, and designed for scalability.
-                    </p>
-                </motion.div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {products.map((product, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.05 }}
-                            whileHover={{ y: -5 }}
-                            className={`bg-white border border-slate-100 p-8 rounded-3xl shadow-lg shadow-slate-200/50 ${product.border} transition-all group relative overflow-hidden`}
+                            transition={{ delay: index * 0.1 }}
+                            className={`p-8 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${product.border} border-l-4 border-l-transparent hover:border-l-current`}
                         >
-
-                            <div className={`w-14 h-14 rounded-2xl ${product.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                                {product.icon}
+                            <div className="flex justify-between items-start mb-6">
+                                <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${product.color}`}>
+                                    {product.icon}
+                                </div>
+                                <div className="flex gap-2">
+                                    {product.tags.map((tag, i) => (
+                                        <span key={i} className="px-2 py-1 rounded-md bg-slate-50 text-slate-500 text-[10px] font-bold uppercase tracking-wide border border-slate-100">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
                             </div>
 
-                            <h3 className="text-2xl font-bold mb-3 text-slate-900 group-hover:text-primary transition-colors">
-                                {product.title}
-                            </h3>
-
-                            <p className="text-slate-500 leading-relaxed mb-6 font-medium">
+                            <h3 className="text-xl font-bold text-slate-900 mb-3">{product.title}</h3>
+                            <p className="text-slate-600 text-sm leading-relaxed mb-6">
                                 {product.description}
                             </p>
 
-                            <div className="flex gap-2 flex-wrap">
-                                {product.tags.map((tag, i) => (
-                                    <span key={i} className="text-xs font-bold py-1 px-3 rounded-lg bg-slate-100 text-slate-600 border border-slate-200">
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
+                            <a href="#" className="inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-700">
+                                Learn more <ArrowRight size={16} className="ml-1" />
+                            </a>
                         </motion.div>
                     ))}
+                </div>
+
+                <div className="mt-12 text-center md:hidden">
+                    <button className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors">
+                        View Full Catalog <ArrowRight size={20} />
+                    </button>
                 </div>
             </div>
         </section>
     );
 };
+
+// Import necessary specifically for this component as it's used
+import { ArrowRight } from 'lucide-react';
 
 export default Products;
