@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ChatWidget from './components/ChatWidget';
 import LoadingSpinner from './components/LoadingSpinner';
+import ScrollToTop from './components/ScrollToTop';
 
 // Lazy Import Pages for Performance Optimization
 const Home = lazy(() => import('./pages/Home'));
@@ -18,7 +19,7 @@ function App() {
 
   return (
     <div className="bg-slate-50 min-h-screen text-slate-800 font-sans selection:bg-blue-200 selection:text-blue-900 relative">
-
+      <ScrollToTop />
       {/* Content wrapper */}
       <div className="relative z-10 flex flex-col min-h-screen">
         <Navbar />
